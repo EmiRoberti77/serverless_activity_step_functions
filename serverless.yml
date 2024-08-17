@@ -1,0 +1,23 @@
+service: stepfunctionsActivities
+
+plugins:
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+
+stepFunctions:
+  stateMachines:
+    activityExample:
+      name: activity-example
+      definition:
+        Comment: Demonstration of activities in state machine
+        StartAt: WaitForActivity
+        States:
+          WaitForActivity:
+            Type: Task
+            Resource: arn:aws:states:us-east-1:432599188850:activity:myActivity
+            End: True
