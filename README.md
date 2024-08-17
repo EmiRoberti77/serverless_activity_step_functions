@@ -1,19 +1,22 @@
-<!--
-title: 'AWS NodeJS Example'
-description: 'This template demonstrates how to deploy a simple NodeJS function running on AWS Lambda using the Serverless Framework.'
-layout: Doc
-framework: v4
-platform: AWS
-language: nodeJS
-priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, Inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+## Activity in state machine
 
-# Serverless Framework AWS NodeJS Example
+wait for an activity to finish before starting the next step in the state machine configuration. i have included sample aws commands to poll and activity and to pass a success state back to the state machine
 
-This template demonstrates how to deploy a simple NodeJS function running on AWS Lambda using the Serverless Framework. The deployed function does not include any event definitions or any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which include use cases like API endpoints, workers triggered by SQS, persistence with DynamoDB, and scheduled tasks. For details about configuration of specific events, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
+poll state machine
+
+```bash
+user@Users-MBP stepfunctionsActivities % aws stepfunctions get-activity-task --activity-arn arn:aws:states:us-east-1:432599188850:activity:myActivity
+{
+    "taskToken": "AQBsAAAAKgAAAAIAAAAAAAAAAXNosRjCT+ITiFZdTV3naKynf7iJGRLa5e4ZtVr1AW4QklcZeshoqRXqzVv58RSLzNxHEuJOmK/Gw/IbT5Kdvms=AAAAKgAAAAIAAAAAAAAAATk8Ebk8L448pMl3y7398GY73aDqx8JoPzvVQEVRox6dDf2vDIhnPjqH81MOH+2kfJOIjBf2LlCA5CMbsYL8ywIkOfKdixj4NDfhcCaPFvqTzg9O4VZ45UfGruouZbJ/dPpddqBIRkuSqEf9B8B7KrJtKaQLLHrrhkgVezPod57hsQSkxSJoX8v9R8VStWhE2FrbaxPn/kENa/MBwQxCfu0YM4rP8b1qj3KDRsOzaHgM",
+    "input": "{\"name\":\"emi\"}"
+}
+```
+
+send success state to task
+
+```bash
+user@Users-MBP stepfunctionsActivities % aws stepfunctions send-task-success --task-token "AQBsAAAAKgAAAAIAAAAAAAAAAXNosRjCT+ITiFZdTV3naKynf7iJGRLa5e4ZtVr1AW4QklcZeshoqRXqzVv58RSLzNxHEuJOmK/Gw/IbT5Kdvms=AAAAKgAAAAIAAAAAAAAAATk8Ebk8L448pMl3y7398GY73aDqx8JoPzvVQEVRox6dDf2vDIhnPjqH81MOH+2kfJOIjBf2LlCA5CMbsYL8ywIkOfKdixj4NDfhcCaPFvqTzg9O4VZ45UfGruouZbJ/dPpddqBIRkuSqEf9B8B7KrJtKaQLLHrrhkgVezPod57hsQSkxSJoX8v9R8VStWhE2FrbaxPn/kENa/MBwQxCfu0YM4rP8b1qj3KDRsOzaHgM" --task-output 4
+```
 
 ## Usage
 
